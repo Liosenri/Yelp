@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import StarIcon from '../icons/StarIcon';
 
 type Props = {
   rating : number;
@@ -7,10 +8,13 @@ type Props = {
   priceRate: string;
 }
 
-const BarElement = ( { value, title } : {value: number | string, title : string } ) => {
+const BarElement = ( { value, title, icon = '' } : {value: number | string, title : string, icon?: 'star' | '' } ) => {
   return (
-    <View style={styles.barElement}>
-        <Text style={styles.value}>{value}</Text>
+    <View style={styles.barElement} >
+        <View style={styles.valueContainer} >
+          <Text style={styles.value}>{value} </Text>
+          {icon==='star' && <StarIcon />}
+        </View>
         <Text style={styles.title}>{title}</Text>
     </View>
   )
@@ -23,7 +27,7 @@ const BusinessDetailsBar = ({
 } : Props) => {
   return (
     <View style={ styles.container }>
-      <BarElement value={rating} title='Rating'/>
+      <BarElement value={rating} title='Rating' icon='star'/>
       <BarElement value={reviesNumber} title='Reviews'/>
       <BarElement value={priceRate} title='Price'/>
     </View>
@@ -44,11 +48,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10
   },
-  value: {
-    fontSize: 20,
-    fontWeight: '600'
-  },
   title: {
     fontSize: 12,
+  },
+  valueContainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  value: {
+    fontSize: 20,
+    fontWeight: '600',
   },
 })
