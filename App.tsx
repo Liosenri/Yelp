@@ -1,18 +1,18 @@
-import {StyleSheet} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeStackNavigator from './src/navigation/navigator/HomeStackNavigator';
+import {ListModeProvider} from './src/Providers/ListModeProvider';
 
 type Props = {};
 
 const App = ({}: Props) => {
   return (
     <NavigationContainer>
-      <HomeStackNavigator />
+      <ListModeProvider>
+        <HomeStackNavigator />
+      </ListModeProvider>
     </NavigationContainer>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({});

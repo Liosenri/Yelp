@@ -83,3 +83,5 @@ export interface BusinessDetails {
   price: string;
   transactions: any[];
 }
+
+export type ListMode = 'list' | 'map';
