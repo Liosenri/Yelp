@@ -64,6 +64,19 @@ export interface Coordinates {
   longitude: number;
 }
 
+export interface Hour{
+  is_overnight: boolean;
+  start: string;
+  end: string;
+  day: number;
+}
+
+export interface Hours{
+  open: Hour[];
+  hours_type: string;
+  is_open_now: boolean;
+}
+
 export interface BusinessDetails {
   id: string;
   alias: string;
@@ -79,6 +92,7 @@ export interface BusinessDetails {
   rating: number;
   location: Location;
   coordinates: Coordinates;
+  hours: Hours[];
   photos: string[];
   price: string;
   transactions: any[];
