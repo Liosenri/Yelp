@@ -27,9 +27,9 @@ const styles = StyleSheet.create({
   containerView: {
     backgroundColor: 'white',
     borderRadius: 10,
-    padding: 8,
+    paddingHorizontal: 8,
     marginHorizontal: 16,
     marginTop: 16,
   },
-  textInput: {height: 28},
+  textInput: {height: 44},
 });

@@ -10,7 +10,8 @@ const YelpAPI = axios.create({
 
 YelpAPI.interceptors.request.use(config => {
   // @ts-ignore
-  config.headers.Authorization = 'Bearer YOU_API_KEY_HERE';
+  config.headers.Authorization =
+    'Bearer BUXZnRa5K1PFFQU4zBnCBkNok_H-IELqR_bwkaLbgP9nWv6uHViQOKv6hmKfRMN5ITGTTEuO7Ujc_FCiWMXqop1tS8CoNtkkxzUWn8ZePPyudVb7ESitfI39oXXVYnYx';
   return config;
 });
 

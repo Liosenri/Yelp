@@ -6,7 +6,7 @@ import BusinessItem from './BusinessItem';
 
 type Props = {
   businnesses: Business[];
-  onPressItem: (businessId: string) => void;
+  onPressItem?: (businessId: string) => void;
 };
 
 const BusinessList = ({businnesses, onPressItem}: Props) => {
@@ -18,6 +18,7 @@ const BusinessList = ({businnesses, onPressItem}: Props) => {
 
   return (
     <FlatList
+      style={styles.list}
       contentContainerStyle={styles.contentContainer}
       data={businnesses}
       renderItem={renderItem}
@@ -29,6 +30,7 @@ const BusinessList = ({businnesses, onPressItem}: Props) => {
 export default BusinessList;
 
 const styles = StyleSheet.create({
+  list: {flex: 1},
   contentContainer: {padding: 16},
   separatorView: {height: 16},
 });
