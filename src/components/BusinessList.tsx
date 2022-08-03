@@ -5,7 +5,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import BusinessItem from './BusinessItem';
 
 type Props = {
-  businnesses: Business[];
+  businnesses: Business[] | null;
   onPressItem?: (businessId: string) => void;
 };
 

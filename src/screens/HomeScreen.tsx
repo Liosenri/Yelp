@@ -1,14 +1,15 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useContext, useState} from 'react';
 import SearchBar from '../components/SearchBar';
-import {getBusinessesByCoordinates} from '../services/yelpServices';
-import {Business} from '../types';
 import BusinessList from '../components/BusinessList';
 import LoadingView from '../components/LoadingView';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {HomeStackNavigatorParamsList} from '../navigation/navigator/HomeStackNavigator';
 import MapView, {Marker} from 'react-native-maps';
 import {listModeContext} from '../Providers/ListModeProvider';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppState} from '../store';
+import {fetchBusinessesByCoordinateAction} from '../store/BusinessesStore/BusinessesActions';
 
 type Props = {
   navigation: StackNavigationProp<HomeStackNavigatorParamsList, 'Home'>;
@@ -16,23 +17,21 @@ type Props = {
 
 const HomeScreen = ({navigation}: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [businesses, setBusinesses] = useState<Business[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const {listMode} = useContext(listModeContext);
 
-  const handleOnEndEditing = async () => {
-    setIsLoading(true);
-    try {
-      const response = await getBusinessesByCoordinates(searchQuery, {
+  const {businesses, isLoading} = useSelector(
+    (state: AppState) => state.businesses,
+  );
+  const dispatch = useDispatch();
+
+  const handleOnEndEditing = () =>
+    dispatch(
+      // @ts-ignore
+      fetchBusinessesByCoordinateAction(searchQuery, {
         latitude: 19.433664932,
         longitude: -99.137666116,
-      });
-      setBusinesses(response.data.businesses);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  };
+      }),
+    );
 
   const onPressbusinessItem = (businessId: string) =>
     navigation.navigate('BusinessDetails', {businessId});
@@ -60,7 +59,7 @@ const HomeScreen = ({navigation}: Props) => {
             longitudeDelta: 0.002,
           }}
           style={styles.mapView}>
-          {businesses.map(({coordinates, name, rating, is_closed, id}) => (
+          {businesses?.map(({coordinates, name, rating, is_closed, id}) => (
             <Marker
               key={id}
               title={name}
@@ -75,8 +74,6 @@ const HomeScreen = ({navigation}: Props) => {
     </View>
   );
 };
-
-// 19.433664932 -99.137666116
 
 export default HomeScreen;
 
