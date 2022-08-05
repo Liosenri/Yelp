@@ -1,14 +1,27 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
-import ReduxThunk from 'redux-thunk';
-import BusinessesReducer from './BusinessesStore/BusinessesReducer';
+import {configureStore} from '@reduxjs/toolkit';
+import {useDispatch} from 'react-redux';
+import BusinessesReducer from './slices/businessesSlices';
+import {RTKYelpApi} from '../services/RTKYelpApi';
 
-export const rootReducer = combineReducers({
-  businesses: BusinessesReducer,
+const middleWares: any[] = [];
+
+if (__DEV__) {
+  const createDebugger = require('redux-flipper').default;
+  middleWares.push(createDebugger());
+}
+
+middleWares.push(RTKYelpApi.middleware);
+
+const store = configureStore({
+  reducer: {
+    businesses: BusinessesReducer,
+    [RTKYelpApi.reducerPath]: RTKYelpApi.reducer,
+  },
+  middleware: getDetaultMiddleware =>
+    getDetaultMiddleware().concat(middleWares),
 });
-
-const middleWares = [ReduxThunk];
-
-const store = createStore(rootReducer, {}, applyMiddleware(...middleWares));
-export type AppState = ReturnType<typeof rootReducer>;
+export type AppState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch; //
 
 export default store;

@@ -7,9 +7,9 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {HomeStackNavigatorParamsList} from '../navigation/navigator/HomeStackNavigator';
 import MapView, {Marker} from 'react-native-maps';
 import {listModeContext} from '../Providers/ListModeProvider';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppState} from '../store';
-import {fetchBusinessesByCoordinateAction} from '../store/BusinessesStore/BusinessesActions';
+import {useSelector} from 'react-redux';
+import {AppState, useAppDispatch} from '../store';
+import {fetchBusinessesByCoordinatesAction} from '../store/slices/businessesSlices';
 
 type Props = {
   navigation: StackNavigationProp<HomeStackNavigatorParamsList, 'Home'>;
@@ -22,14 +22,13 @@ const HomeScreen = ({navigation}: Props) => {
   const {businesses, isLoading} = useSelector(
     (state: AppState) => state.businesses,
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleOnEndEditing = () =>
     dispatch(
-      // @ts-ignore
-      fetchBusinessesByCoordinateAction(searchQuery, {
-        latitude: 19.433664932,
-        longitude: -99.137666116,
+      fetchBusinessesByCoordinatesAction({
+        term: searchQuery,
+        coordinates: {latitude: 19.433664932, longitude: -99.137666116},
       }),
     );
 
